@@ -1,0 +1,19 @@
+# Dependencies & Build
+node_modules/
+.next/
+out/
+build/
+
+# Environment files
+.env
+.env*.local
+
+# Terraform & SSH Keys
+terraform/
+*.pem
+terra-key
+terra-key.pub
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl

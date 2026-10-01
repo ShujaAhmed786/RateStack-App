@@ -1,0 +1,126 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum ContractStatus {
+  DRAFT
+  SENT
+  ACCEPTED
+  COMPLETED
+  CANCELED
+}
+
+enum ContractType {
+  MILESTONE
+  STANDARD_LEGAL
+}
+
+enum MilestoneStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  APPROVED
+  PAYMENT_SUBMITTED
+  INVOICED
+  PAID
+}
+
+model VerificationToken {
+  id        String   @id @default(uuid())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model User {
+  id        String     @id @default(uuid())
+  name      String?
+  email     String     @unique
+  password  String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  contracts Contract[]
+  clients   Client[]   // <-- Add relation to Client
+}
+
+model Client {
+  id          String     @id @default(uuid())
+  userId      String?    // <-- Link client to a specific user
+  user        User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  companyName String?
+  email       String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  contracts   Contract[]
+
+  @@index([userId])
+}
+
+model Contract {
+  id                    String         @id @default(uuid())
+  type                  ContractType   @default(MILESTONE)
+  templateCategory      String?
+  title                 String
+  scopeDescription      String         @db.Text
+  totalValue            Decimal?       @default(0)
+  currency              String         @default("USD")
+  paymentLink           String?
+  status                ContractStatus @default(DRAFT)
+  publicToken           String         @unique @default(cuid())
+
+  // Initiator (Party A) Signature Block
+  initiatorName         String?
+  initiatorSignature    String?
+  initiatorSignedAt     DateTime?
+
+  // Counterparty / Client (Party B) Signature Block
+  acceptedBySignature   String?
+  acceptedAt            DateTime?
+
+  userId                String
+  user                  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clientId              String?
+  client                Client?        @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  milestones            Milestone[]
+  auditLogs             AuditLog[]
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+}
+model Milestone {
+  id              String          @id @default(uuid())
+  contractId      String
+  contract        Contract        @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  title           String
+  description     String?
+  percentage      Decimal         @db.Decimal(5, 2)
+  amount          Decimal         @db.Decimal(12, 2)
+  dueDate         DateTime?
+  sortOrder       Int             @default(0)
+  status          MilestoneStatus @default(PENDING)
+  completedAt     DateTime?
+  paidAt          DateTime?
+  invoiceNumber   String?         @unique
+  stripePaymentId String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@index([contractId])
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  contractId String
+  contract   Contract @relation(fields: [contractId], references: [id], onDelete: Cascade)
+  event      String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+}
