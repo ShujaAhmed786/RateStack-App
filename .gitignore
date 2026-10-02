@@ -6,6 +6,7 @@ build/
 
 # Environment files
 .env
+.env.local
 .env*.local
 
 # Terraform & SSH Keys

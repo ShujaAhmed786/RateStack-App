@@ -1,0 +1,16 @@
+services:
+  ratestack-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ratestack-app:local
+    container_name: ratestack-app
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - AUTH_TRUST_HOST=true
+    restart: unless-stopped
