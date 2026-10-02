@@ -1,0 +1,66 @@
+@Library('devsecops-lib') _
+
+pipeline {
+    agent any
+
+    environment {
+        APP_NAME  = 'ratestack-app'
+        BUILD_TAG = "${BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Security & Code Analysis') {
+            parallel {
+                stage('SAST') {
+                    steps {
+                        runSonarQube(projectKey: 'ratestack', sources: 'src')
+                    }
+                }
+                stage('SCA') {
+                    steps {
+                        runDependencyCheck(target: 'package.json')
+                    }
+                }
+            }
+        }
+
+        stage('Containerize & Scan') {
+            steps {
+                buildAndScanDocker(
+                    imageName: env.APP_NAME,
+                    imageTag: env.BUILD_TAG,
+                    severity: 'HIGH,CRITICAL'
+                )
+            }
+        }
+
+        stage('Kind Deployment') {
+            steps {
+                deployToKind(
+                    imageName: env.APP_NAME,
+                    clusterName: 'kind',
+                    deployment: 'ratestack-deployment',
+                    namespace: 'default'
+                )
+            }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo "DevSecOps pipeline completed successfully for RateStack."
+        }
+        failure {
+            echo "Pipeline failed. Review security reports or build logs."
+        }
+    }
+}
