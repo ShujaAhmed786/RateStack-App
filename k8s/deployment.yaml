@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ratestack-deployment
+  labels:
+    app: ratestack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ratestack
+  template:
+    metadata:
+      labels:
+        app: ratestack
+    spec:
+      containers:
+        - name: ratestack-app
+          image: ratestack-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+            - name: AUTH_TRUST_HOST
+              value: "true"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ratestack-secrets
+                  key: DATABASE_URL
+            - name: AUTH_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ratestack-secrets
+                  key: AUTH_SECRET
