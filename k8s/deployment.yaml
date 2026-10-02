@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: ratestack-app
-          image: ratestack-app:latest
-          imagePullPolicy: IfNotPresent
+          image: shujaahmed198/ratestack-app:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:

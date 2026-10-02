@@ -32,7 +32,6 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV PORT=3000
-ENV AUTH_TRUST_HOST=true
 
 USER node
 
