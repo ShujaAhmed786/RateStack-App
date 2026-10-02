@@ -1,11 +1,14 @@
-@Library('jenkins-shared-library') _
+@Library('jenkins-shared-library@main') _
 
 pipeline {
     agent any
 
     environment {
-        APP_NAME  = 'ratestack-app'
-        BUILD_TAG = "${BUILD_NUMBER}"
+        DOCKERHUB_CREDENTIALS = 'dockerhub-creds'
+        DOCKER_IMAGE_NAME     = 'shujaahmed198/ratestack-app'
+        SONAR_SERVER_NAME     = 'SonarQube'
+        SONAR_SCANNER_TOOL    = 'sonar-scanner'
+        SONAR_PROJECT_KEY     = 'ratestack'
     }
 
     stages {
@@ -19,12 +22,20 @@ pipeline {
             parallel {
                 stage('SAST') {
                     steps {
-                        runSonarQube(projectKey: 'ratestack', sources: 'src')
+                        runSonarQube(
+                            serverName: env.SONAR_SERVER_NAME,
+                            scannerName: env.SONAR_SCANNER_TOOL,
+                            projectKey: env.SONAR_PROJECT_KEY,
+                            sources: 'src'
+                        )
                     }
                 }
                 stage('SCA') {
                     steps {
-                        runDependencyCheck(target: 'package.json')
+                        runDependencyCheck(
+                            target: 'package.json',
+                            toolName: 'DP-Check'
+                        )
                     }
                 }
             }
@@ -33,9 +44,8 @@ pipeline {
         stage('Containerize & Scan') {
             steps {
                 buildAndScanDocker(
-                    imageName: env.APP_NAME,
-                    imageTag: env.BUILD_TAG,
-                    severity: 'HIGH,CRITICAL'
+                    imageName: env.DOCKER_IMAGE_NAME,
+                    dockerHubCredentials: env.DOCKERHUB_CREDENTIALS
                 )
             }
         }
@@ -43,10 +53,9 @@ pipeline {
         stage('Kind Deployment') {
             steps {
                 deployToKind(
-                    imageName: env.APP_NAME,
-                    clusterName: 'kind',
-                    deployment: 'ratestack-deployment',
-                    namespace: 'default'
+                    deploymentName: 'ratestack-deployment',
+                    namespace: 'default',
+                    imageName: "${env.DOCKER_IMAGE_NAME}:${env.BUILD_NUMBER}"
                 )
             }
         }
@@ -57,7 +66,7 @@ pipeline {
             cleanWs()
         }
         success {
-            echo "DevSecOps pipeline completed successfully for RateStack."
+            echo "DevSecOps pipeline completed successfully. ArgoCD will track the new rollout."
         }
         failure {
             echo "Pipeline failed. Review security reports or build logs."
