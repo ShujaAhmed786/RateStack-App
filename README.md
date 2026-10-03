@@ -346,7 +346,11 @@ docker compose up --build   # app + PostgreSQL
 ├── prisma/
 │   ├── schema.prisma   # Data models
 │   └── seed.ts         # Demo seed data
-├── k8s/                # Kubernetes manifests (deployment, service)
+├── k8s/                # Kubernetes manifests
+│   ├── kind-config.yaml  # 3-node Kind cluster (control-plane + 2 workers, hostPorts 80/443)
+│   ├── deployment.yaml   # RateStack app deployment
+│   ├── service.yaml      # NodePort service (30085)
+│   └── ingress.yaml      # Ingress-NGINX routing (port 80 → service)
 ├── terraform/          # AWS provisioning (EC2 host, security groups)
 │   ├── main.tf         # Key pair, SG (22/80/443/8080/9000), EC2 + Docker/kind/kubectl bootstrap
 │   └── variables.tf    # Region, AMI, instance type, public key path
