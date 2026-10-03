@@ -1,6 +1,5 @@
 # RateStack — Freelance & Agency Agreement Engine
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-online-brightgreen)](http://13.233.47.141/)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript)
 ![Prisma](https://img.shields.io/badge/Prisma-5-2D3748?logo=prisma)
