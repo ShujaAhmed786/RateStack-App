@@ -42,50 +42,50 @@ RateStack lets a freelancer or agency:
 All screenshots below are taken from the live deployment.
 
 ### 1. Landing page
-![RateStack landing page](docs/screenshots/01-landing-page.png)
+![RateStack landing page](docs/screenshots/01-landing-page.jpg)
 
 ### 2. Sign up
 New accounts are created with full name, email, and password, verified via an
 email verification code.
-![Sign up page](docs/screenshots/02-signup-page.png)
+![Sign up page](docs/screenshots/02-signup-page.jpg)
 
 ### 3. Sign in
-![Sign in page](docs/screenshots/03-login-page.png)
+![Sign in page](docs/screenshots/03-login-page.jpg)
 
 ### 4. Contracts dashboard
 Post-login landing view: every contract as a card with status badge
 (`SENT` / `ACCEPTED`), total value, client, milestone roadmap, and progress.
-![Contracts dashboard](docs/screenshots/04-dashboard.png)
+![Contracts dashboard](docs/screenshots/04-dashboard.jpg)
 
 ### 5. Adding a new client
 Clients are created inline in the contract studio (Step 1): contact name,
 company, and email.
-![New client form](docs/screenshots/05-new-client.png)
+![New client form](docs/screenshots/05-new-client.jpg)
 
 ### 6. Creating a contract
 Step 1 of the studio: pick the target client, set the contract title, and write
 the scope of work & acceptance criteria.
-![New contract form](docs/screenshots/06-new-contract.png)
+![New contract form](docs/screenshots/06-new-contract.jpg)
 
 ### 7. Publishing
 On publish the contract is cryptographically registered and a public client
 sign URL is issued.
-![Contract published](docs/screenshots/07-contract-published.png)
+![Contract published](docs/screenshots/07-contract-published.jpg)
 
 ### 8. Client signing view
 The public link opens the sealed agreement: parties, statement of work, and the
 milestone schedule with payment allocations.
-![Signing view](docs/screenshots/08-signing-view.png)
+![Signing view](docs/screenshots/08-signing-view.jpg)
 
 ### 9. Signature protocol
 Party A signs at publish time; Party B confirms consent, types their legal
 name, and accepts — no account required.
-![Signature protocol](docs/screenshots/09-signature-protocol.png)
+![Signature protocol](docs/screenshots/09-signature-protocol.jpg)
 
 ### 10. Executed agreement
 Once both parties sign, the agreement is locked, timestamped, and available as
 a signed PDF download.
-![Signed contract](docs/screenshots/10-signed-contract.png)
+![Signed contract](docs/screenshots/10-signed-contract.jpg)
 
 ---
 
