@@ -154,6 +154,8 @@ runs on a single AWS EC2 (Ubuntu) host that runs Docker, a 3-node Kind
 
 Monitoring: Prometheus + Grafana, installed via Helm, watch the cluster.
 
+![RateStack deployment flow](docs/diagrams/ratestack-deployment-flow.png)
+
 ### CI/CD in action
 
 Jenkins pipeline — 14 stages from checkout to deploy (~2 min 5 s full run):
