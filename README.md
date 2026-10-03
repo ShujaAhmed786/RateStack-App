@@ -150,6 +150,7 @@ runs on a single AWS EC2 (Ubuntu) host that runs Docker, a 3-node Kind
                                     - control-plane: Ingress-NGINX (:80)
                                     - workers: ratestack-deployment (Next.js :3000)
                                                ratestack-service (NodePort 30085)
+```
 
 Monitoring: Prometheus + Grafana, installed via Helm, watch the cluster.
 
@@ -166,7 +167,6 @@ SonarQube quality gate — 4.4k lines of TypeScript/CSS, status Passed:
 ArgoCD — GitOps sync of the manifests to the Kind cluster:
 
 ![ArgoCD dashboard](docs/screenshots/13-argocd-dashboard.png)
-```
 
 Pipeline stage implementations live in the Jenkins Shared Library:
 `jenkins-files/Jenkins-Shared-Library/vars/` (`runSonarQube.groovy`,
