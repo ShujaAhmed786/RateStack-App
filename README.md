@@ -1,5 +1,16 @@
 # RateStack — Freelance & Agency Agreement Engine
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-online-brightgreen)](http://13.233.47.141/)
+![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript)
+![Prisma](https://img.shields.io/badge/Prisma-5-2D3748?logo=prisma)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?logo=postgresql)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?logo=kubernetes)
+![Jenkins](https://img.shields.io/badge/Jenkins-D24939?logo=jenkins)
+![Terraform](https://img.shields.io/badge/Terraform-7B42BC?logo=terraform)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow)
+
 **Lock contract scope, milestones, and signatures.** RateStack is a full-stack web
 application for creating client agreements with auto-balancing milestones,
 verifiable audit trails, and instant e-signable legal documents — built and
