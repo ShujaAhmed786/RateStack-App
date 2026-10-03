@@ -16,14 +16,6 @@ application for creating client agreements with auto-balancing milestones,
 verifiable audit trails, and instant e-signable legal documents — built and
 deployed end-to-end as a DevOps portfolio project.
 
-🌐 **Live demo:** http://13.233.47.141/
-
-> **Try it yourself** — sign up for a new account, or log in with the demo
-> account below to explore the dashboard, clients, contracts, and signing flow:
->
-> - Email: `shujaahmed198@gmail.com`
-> - Password: `shuja123`
-
 ---
 
 ## What it does
