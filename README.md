@@ -1,5 +1,6 @@
 # RateStack — Freelance & Agency Agreement Engine
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-online-brightgreen)](http://13.233.47.141/)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-blue?logo=typescript)
 ![Prisma](https://img.shields.io/badge/Prisma-5-2D3748?logo=prisma)
@@ -14,6 +15,14 @@
 application for creating client agreements with auto-balancing milestones,
 verifiable audit trails, and instant e-signable legal documents — built and
 deployed end-to-end as a DevOps portfolio project.
+
+🌐 **Live demo:** http://13.233.47.141/
+
+> **Try it yourself** — sign up for a new account, or log in with the demo
+> account below to explore the dashboard, clients, contracts, and signing flow:
+>
+> - Email: `shujaahmed198@gmail.com`
+> - Password: `shuja123`
 
 ---
 
@@ -100,7 +109,8 @@ a signed PDF download.
 | Data       | Prisma ORM 5, PostgreSQL |
 | Documents  | @react-pdf/renderer (signed PDF export), Zod validation |
 | Containers | Multi-stage Docker build (Alpine), Docker Compose |
-| Orchestration | Kubernetes manifests (`k8s/`), Jenkins pipeline (`jenkinsfile`, `jenkins-files/`) |
+| Orchestration | Kubernetes manifests (`k8s/`), Jenkins pipeline (`jenkinsfile`, `jenkins-files/`), ArgoCD GitOps sync |
+| Monitoring | Prometheus + Grafana (deployed via Helm) |
 
 ### Data model (Prisma)
 
@@ -131,7 +141,8 @@ runs on a single AWS EC2 (Ubuntu) host that runs Docker, a 3-node Kind
                        |     - SCA: OWASP Dependency-Check on package.json       |
                        |  3. Containerize & scan: multi-stage Docker build,      |
                        |     Trivy image scan, push to Docker Hub                |
-                       |  4. Deploy: rolling update on the Kind cluster          |
+                       |  4. GitOps deploy: ArgoCD syncs the GitHub manifests    |
+                       |     to the Kind cluster (rolling update)                |
                        +-----------------------------+-----------------------------+
                                                      |
                                                      v
@@ -139,6 +150,22 @@ runs on a single AWS EC2 (Ubuntu) host that runs Docker, a 3-node Kind
                                     - control-plane: Ingress-NGINX (:80)
                                     - workers: ratestack-deployment (Next.js :3000)
                                                ratestack-service (NodePort 30085)
+
+Monitoring: Prometheus + Grafana, installed via Helm, watch the cluster.
+
+### CI/CD in action
+
+Jenkins pipeline — 14 stages from checkout to deploy (~2 min 5 s full run):
+
+![Jenkins pipeline stages](docs/screenshots/11-jenkins-pipeline.png)
+
+SonarQube quality gate — 4.4k lines of TypeScript/CSS, status Passed:
+
+![SonarQube dashboard](docs/screenshots/12-sonarqube-dashboard.png)
+
+ArgoCD — GitOps sync of the manifests to the Kind cluster:
+
+![ArgoCD dashboard](docs/screenshots/13-argocd-dashboard.png)
 ```
 
 Pipeline stage implementations live in the Jenkins Shared Library:
