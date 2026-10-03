@@ -1,0 +1,5 @@
+# Copy to terraform.tfvars and fill in your values:  cp terraform.tfvars.example terraform.tfvars
+aws_region      = "ap-south-1"
+ami_id          = "ami-xxxxxxxxxxxxxxxxx" # Ubuntu 22.04 LTS AMI in your region
+instance_type   = "t3.xlarge"
+public_key_path = "~/.ssh/id_rsa.pub"
